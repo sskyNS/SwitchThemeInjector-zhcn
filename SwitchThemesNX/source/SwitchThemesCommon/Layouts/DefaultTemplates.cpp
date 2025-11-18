@@ -204,7 +204,7 @@ vector<PatchTemplate> Patches::DefaultTemplates{
         { "P_Bg_00" },
         "White1x1A0^t" },
 //Flaunch:
-    PatchTemplate{ "all apps menu", "Flaunch.szs", "0100000000001000", ">= 6.X",
+    PatchTemplate{ "所有应用菜单", "Flaunch.szs", "0100000000001000", ">= 6.X",
         { "blyt/FlcBtnIconGame.bflyt", "anim/BaseBg_Loading.bflan", "blyt/BgNav_Root.bflyt" }, //anim/BaseBg_Loading.bflan for 6.0
         {},
         "blyt/BgNml.bflyt",
@@ -231,7 +231,7 @@ vector<PatchTemplate> Patches::DefaultTemplates{
         { "P_Bg_00" },
         "White1x1^r" },
 //PSL:
-    PatchTemplate{ "player selection", "Psl.szs", "0100000000001007", "all firmwares",
+    PatchTemplate{ "用户选择", "Psl.szs", "0100000000001007", "所有固件版本",
         { "blyt/IconGame.bflyt", "blyt/BgNavNoHeader.bflyt" },
         {},
         "blyt/PslSelectSinglePlayer.bflyt",

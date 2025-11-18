@@ -12,7 +12,7 @@ namespace Settings {
 
 SettingsPage::SettingsPage() 
 {
-	Name = "Settings";
+	Name = "设置";
 }
 
 void SettingsPage::Render(int X, int Y)
@@ -22,20 +22,20 @@ void SettingsPage::Render(int X, int Y)
 	ImGui::PushFont(font25);
 
 	ImGui::PushFont(font30);
-	ImGui::TextUnformatted("NXTheme settings");
+	ImGui::TextUnformatted("NX主题设置");
 	ImGui::PopFont();
-	ImGui::TextWrapped("These settings only apply for installing nxthemes and are not saved, you have to switch them back every time you launch this app");
-	ImGui::Checkbox("Enable custom icons", &Settings::UseIcons);
+	ImGui::TextWrapped("这些设置仅适用于安装nx主题，不会保存，每次启动应用时都需要重新设置。此设置允许您安装为比当前运行版本更旧的固件版本制作的主题。");
+	ImGui::Checkbox("启用自定义图标", &Settings::UseIcons);
 	PAGE_RESET_FOCUS;
-	ImGui::Checkbox("Enable extra layouts (eg. common.szs)", &Settings::UseCommon);
+	ImGui::Checkbox("启用额外布局 (如 common.szs)", &Settings::UseCommon);
 
 	ImGui::NewLine();
-	ImGui::Text("Home menu compatibility options.");
-	ImGui::TextWrapped("Changing this could help solve install issues with old themes on latest firmware.");
-	ImGui::RadioButton("Decide automatically (default)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Default);
-	ImGui::RadioButton("Force original home menu applet icons (firmware <= 10.0)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Firmware10);
-	ImGui::RadioButton("Force home menu layout with the NS online icon (firmware 11.0)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Firmware11);
-	ImGui::RadioButton("Do not apply compatibility fixes", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::DisableFixes);
+	ImGui::Text("主菜单兼容性选项。");
+	ImGui::TextWrapped("更改此选项可帮助解决最新固件上旧主题的安装问题。");
+	ImGui::RadioButton("自动决定 (默认)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Default);
+	ImGui::RadioButton("强制使用原始主菜单小程序图标 (固件 <= 10.0)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Firmware10);
+	ImGui::RadioButton("强制使用带NS在线图标的主菜单布局 (固件 11.0)", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::Firmware11);
+	ImGui::RadioButton("不应用兼容性修复", (int*)&Settings::HomeMenuCompat, (int)SwitchThemesCommon::LayoutCompatibilityOption::DisableFixes);
 
 	ImGui::NewLine();
 

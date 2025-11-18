@@ -13,5 +13,5 @@
 	const std::string Version::Name = VER_NAME;
 #endif
 
-const std::string Version::Commit = "Commit: " GITVER;
+const std::string Version::Commit = "插件版本：简体中文";
 const std::string Version::UserAgent = "NXThemes/" VER_NUM;

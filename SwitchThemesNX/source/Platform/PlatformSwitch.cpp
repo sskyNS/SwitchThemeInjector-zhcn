@@ -27,7 +27,50 @@ void PlatformInit()
 {
 	AppletType at = appletGetAppletType();
 	if (at != AppletType_Application && at != AppletType_SystemApplication)
-		UseLowMemory = true;
+	{
+		// 强制要求使用app模式，因为applet模式内存不足
+		consoleInit(NULL);
+		
+		// 清空屏幕并设置黑色背景
+		consoleClear();
+		
+		// 输出错误信息
+		printf("\n\n\n\n");
+		printf("    ======================================\n");
+		printf("    NX Theme Installer - Memory Error\n");
+		printf("    ======================================\n");
+		printf("\n");
+		printf("    This homebrew must be run in APP mode.\n");
+		printf("    Current mode: %s\n", at == AppletType_LibraryApplet ? "Library Applet" : "Other mode");
+		printf("\n");
+		printf("    Reason: Applet mode doesn't provide enough\n");
+		printf("    memory to load fonts and resources.\n");
+		printf("\n");
+		printf("    Solution:\n");
+		printf("    1. Launch directly from homebrew launcher\n");
+		printf("    2. Avoid launching from album or applets\n");
+		printf("    3. Ensure using APP mode in CFW\n");
+		printf("\n");
+		printf("    Press any button to exit...\n");
+		printf("    ======================================\n");
+		
+		// 强制刷新控制台输出
+		consoleUpdate(NULL);
+		
+		// 等待用户按键
+		PadState pad;
+		padInitializeDefault(&pad);
+		while (appletMainLoop())
+		{
+			padUpdate(&pad);
+			u64 kDown = padGetButtonsDown(&pad);
+			if (kDown)
+				break;
+		}
+		
+		consoleExit(NULL);
+		exit(1); // 强制退出程序
+	}
 
 	romfsInit();
 	socketInitializeDefault();

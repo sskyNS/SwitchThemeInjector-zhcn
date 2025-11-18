@@ -18,7 +18,7 @@ ThemesPage::ThemesPage() : lblPage("")
 	if (UseLowMemory)
 		LimitLoad = 15;
 
-	Name = "Themes";
+	Name = "主题";
 	lblCommands = CommandsTextNormal;
 
 	RefreshThemesList();
@@ -26,7 +26,7 @@ ThemesPage::ThemesPage() : lblPage("")
 
 void ThemesPage::RefreshThemesList()
 {
-	DisplayLoading("Loading themes list...");
+	DisplayLoading("正在加载主题列表...");
 	ClearSelection();
 	SetPage(-1);
 	CursorMemory.clear();
@@ -129,7 +129,7 @@ void ThemesPage::SetPage(int num, int index)
 		if (baseIndex >= DirectoryFiles.size())
 		{
 			// This shouldn't happen
-			lblPage = "Error page out of bounds";
+			lblPage = "页面超出范围错误";
 			return;
 		}
 
@@ -156,9 +156,9 @@ void ThemesPage::Render(int X, int Y)
 
 	if (DisplayEntries.size() == 0)
 		ImGui::TextWrapped(
-			"There's nothing here, copy your themes in the themes folder on your sd and try again.\n\n"
-			"If you do have a themes folder in your sd with themes make sure that the name is all lowercase and that you don't have the archive bit issue (most likely if you use a mac) or sd corruption if you use exfat.\n\n"
-			"You can find more about those on google or ask for support on discord."
+			"这里没有主题，请将您的主题文件复制到SD卡的主题文件夹中，然后重试。\n\n"
+			"如果您在SD卡中确实有主题文件夹，请确保文件夹名称为小写，并且没有归档位问题（如果您使用Mac）或SD卡损坏（如果您使用exfat）。\n\n"
+			"您可以在谷歌上找到更多信息，或在Discord上寻求支持。"
 		);
 
 	ImGui::SetCursorPosY(600);
@@ -266,9 +266,9 @@ void ThemesPage::UpdateBottomText()
 	std::stringstream ss;
 
 	if (SelectedFiles.size() != 0)
-		ss << "(" << SelectedFiles.size() << " selected) ";
+		ss << "(" << SelectedFiles.size() << " 已选择) ";
 
-	ss << CurrentDir << " - Page " << pageNum + 1 << "/" << pageCount;
+	ss << CurrentDir << " - 第 " << pageNum + 1 << " 页/共 " << pageCount << " 页";
 	
 	lblPage = ss.str();
 
@@ -340,7 +340,7 @@ void ThemesPage::Update()
 
 			if (!entry->Install(false))
 			{
-				Dialog("Installing a theme failed, the process was cancelled");
+				Dialog("安装主题失败，进程已取消");
 				break;
 			}
 
@@ -354,7 +354,7 @@ void ThemesPage::Update()
 		}
 
 		if (!combinedInstallLog.empty())
-			Dialog("The themes were installed, however the following warnings have been generated: \n\n" + combinedInstallLog);
+			Dialog("主题已安装，但生成了以下警告：\n\n" + combinedInstallLog);
 
 		ClearSelection();
 		SetPage(pageNum);		

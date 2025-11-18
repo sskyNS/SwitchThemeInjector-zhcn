@@ -4,8 +4,8 @@
 #include <sstream>
 
 #define FS_TROUBLESHOOT_MSG \
-	"Make sure the file exists, this can also be caused by sd corruption with exfat or the archive bit, especially if you used this sd card with a mac.\n" \
-	"Try removing the archive bit from the themes folder on a windows pc or with hekate, alternatively delete themes folder and copy the files via FTP"
+	"请确保文件存在，这也可能是由于exfat的SD卡损坏或归档位引起的，特别是如果您将此SD卡与Mac一起使用。\n" \
+	"尝试在Windows PC上或使用hekate移除主题文件夹的归档位，或者删除主题文件夹并通过FTP复制文件"
 
 using namespace std;
 using namespace fs;
@@ -121,21 +121,21 @@ vector<u8> fs::OpenFile(const string &name)
 {
 	FILE* f = fopen(name.c_str(),"rb");
 	if (!f)
-		throw std::runtime_error("Opening file " + name + " failed !\n" FS_TROUBLESHOOT_MSG);
+		throw std::runtime_error("打开文件 " + name + " 失败！\n" FS_TROUBLESHOOT_MSG);
 
 	fseek(f,0,SEEK_END);
 	size_t len = 0;
 	{
 		auto fsz = ftell(f);
 		if (fsz < 0)
-			throw std::runtime_error("Reading file size for " + name + " failed !\n" FS_TROUBLESHOOT_MSG);
+			throw std::runtime_error("读取文件大小失败 " + name + " ！\n" FS_TROUBLESHOOT_MSG);
 		len = fsz;
 	}
 	rewind(f);
 
 	vector<u8> coll(len);
 	if (fread(coll.data(), 1, len, f) != len)
-		throw std::runtime_error("Reading from file " + name + " failed !\n" FS_TROUBLESHOOT_MSG);
+		throw std::runtime_error("读取文件失败 " + name + " ！\n" FS_TROUBLESHOOT_MSG);
 
 	fclose(f);
 	return coll;
@@ -148,7 +148,7 @@ void fs::WriteFile(const string &name,const vector<u8> &data)
 	
 	FILE* f = fopen(name.c_str(),"wb");
 	if (!f)
-		throw std::runtime_error("Saving file " + name + "failed !");
+		throw std::runtime_error("保存文件 " + name + " 失败！");
 	
 	fwrite(data.data(),1,data.size(),f);
 	fflush(f);

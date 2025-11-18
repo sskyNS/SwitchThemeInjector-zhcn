@@ -32,9 +32,13 @@ static bool ImguiInit()
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2{ SCR_W, SCR_H};
 	
-	font25 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 30.0f);
-	font30 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 35.0f);
-	font40 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 40.0f);
+	// 获取中文字符范围
+	const ImWchar* chinese_ranges = io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
+	
+	// 加载字体时添加中文范围
+	font25 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 25.0f, nullptr, chinese_ranges);
+	font30 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 30.0f, nullptr, chinese_ranges);
+	font40 = io.Fonts->AddFontFromFileTTF(ASSET("opensans.ttf"), 40.0f, nullptr, chinese_ranges);
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.ConfigFlags |= ImGuiConfigFlags_IsTouchScreen;
@@ -203,3 +207,4 @@ void GFX::EndFrame()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	glfwSwapBuffers(mainWindow);
 }
+

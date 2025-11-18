@@ -36,7 +36,7 @@ void DialogPage::Render(int X, int Y)
 	Utils::ImGuiCloseWin();
 
 	ImGui::SetCursorPosY(SCR_H - 90);
-	if (Utils::ImGuiCenterButtons({"   OK   "}) == 0)
+	if (Utils::ImGuiCenterButtons({"   确定   "}) == 0)
 		PopPage(this);
 	Utils::ImGuiSelectItemOnce();
 
@@ -66,7 +66,7 @@ void YesNoPage::Render(int X, int Y)
 	ImGui::TextUnformatted(text.c_str());
 	ImGui::PopTextWrapPos();
 
-	int res = Utils::ImGuiCenterButtons({ "      YES      ", "      NO      " });
+	int res = Utils::ImGuiCenterButtons({ "      是      ", "      否      " });
 
 	if (res == 0)
 	{

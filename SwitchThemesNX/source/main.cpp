@@ -203,7 +203,7 @@ class QuitPage : public IPage
 	public:
 		QuitPage()
 		{
-			Name = "Quit";
+			Name = "退出";
 		}	
 		
 		void Render(int X, int Y) override {}
@@ -217,22 +217,22 @@ class QuitPage : public IPage
 void ShowFirstTimeHelp(bool WelcomeScr)
 {	
 	if (WelcomeScr)
-		DialogBlocking("Welcome to NXThemes Installer " + Version::Name + "!\n\nThese pages contains some important informations, it's recommended to read them carefully.\nThis will only show up once, you can read it again from the Credits tab.");
+		DialogBlocking("欢迎使用NX主题安装器 " + Version::Name + "!\n\n这些页面包含一些重要信息，建议您仔细阅读。\n此提示只会显示一次，您可以从致谢选项卡中再次查看。");
 
 	DialogBlocking(
-		"Custom themes CANNOT brick your console because they're installed only on the SDcard. \n"
-		"If after installing a theme your console doesn't boot anymore manually delete the '0100000000001000' and '0100000000001013' folders in 'SDcard/atmosphere/contents'.\n\n"
-		"When you change the firmware your console (upgrade or downgrade) you must uninstall the theme first because the installed files on the sd are firmware-dependent.\n"
-		"If the firmware you installed supports themes you can install them back after the update.\n\n"
-		"Lockscreen themes after firmware version 9.0 are not supported on all CFWs because some lack support for patching titles via IPS."
+		"自定义主题无法砖掉您的游戏机，因为它们只安装在SD卡上。\n"
+		"如果安装主题后您的游戏机无法启动，请手动删除'SDcard/atmosphere/contents'中的'0100000000001000'和'0100000000001013'文件夹。\n\n"
+		"当您更改游戏机固件（升级或降级）时，必须先卸载主题，因为SD卡上的安装文件是固件相关的。\n"
+		"如果您安装的固件支持主题，可以在更新后重新安装。\n\n"
+		"固件版本9.0之后的锁屏主题在所有CFW上不受支持，因为某些CFW缺乏通过IPS打补丁的支持。"
 	);
 
 	DialogBlocking(
-		"You can find some themes on the /r/NXThemes subreddit and in the Qcean Discord server (invite: CUnHJgb) where you can also ask for support. \n\n"
-		"To make your own themes download the windows app at: https://git.io/fpxAS\n"
-		"Or use the online theme editor at: https://exelix11.github.io/SwitchThemeInjector/v2\n"
+		"您可以在/r/NXThemes子版块和Qcean Discord服务器（邀请码：CUnHJgb）上找到一些主题，也可以在那里寻求支持。\n\n"
+		"要制作自己的主题，请下载Windows应用程序：https://git.io/fpxAS\n"
+		"或使用在线主题编辑器：https://exelix11.github.io/SwitchThemeInjector/v2\n"
 		"\n"
-		"That's all, have fun with custom themes :)"
+		"就这些了，祝您使用自定义主题愉快 :)"
 	);
 }
 
@@ -307,7 +307,7 @@ static void SetupSysVer()
 	if (R_FAILED(res))
 	{
 		setsysExit();
-		DialogBlocking("Could not get sys ver res=" + std::to_string(res));
+		DialogBlocking("无法获取系统版本，结果=" + std::to_string(res));
 		return;
 	}
 	HOSVer = { firmware.major,firmware.minor,firmware.micro };
@@ -340,7 +340,7 @@ int main(int argc, char **argv)
 	PlatformAfterInit();
 
 	SetupSysVer();
-	DisplayLoading("Loading system info...");
+	DisplayLoading("正在加载系统信息...");
 
 	bool ThemesFolderExists = fs::EnsureThemesFolderExists();
 	NcaDumpPage::CheckHomeMenuVer();

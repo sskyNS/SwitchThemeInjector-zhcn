@@ -52,7 +52,7 @@ protected:
 			}
 			catch (std::runtime_error& err)
 			{
-				DialogBlocking("Error while extracting the requested title: " + std::string(err.what()));
+				DialogBlocking("提取请求的主题时出错：" + std::string(err.what()));
 				return false;
 			}
 
@@ -130,7 +130,7 @@ protected:
 		{
 			if (!patch)
 			{
-				DialogBlocking("Couldn't find any patch for " + BaseSzs + "\nThe theme was not installed");
+				DialogBlocking("找不到任何补丁用于 " + BaseSzs + "\n主题未安装");
 				return false;
 			}
 
@@ -198,14 +198,14 @@ protected:
 								pResult = Patcher.PatchAppletIcon(dds, p.NxThemeName);
 							else
 							{
-								DialogBlocking("Couldn't load the icon image for " + p.NxThemeName);
+								DialogBlocking("无法加载图标图像用于 " + p.NxThemeName);
 								continue;
 							}
 						}
 						else continue;
 
 						if (!pResult)
-							DialogBlocking(p.NxThemeName + " icon patch failed for " + SzsName + "\nThe theme will be installed anyway but may crash.");
+							DialogBlocking(p.NxThemeName + " 图标补丁失败用于 " + SzsName + "\n主题仍将安装但可能会崩溃。");
 						else
 							FileHasBeenPatched = true;
 					}
@@ -218,7 +218,7 @@ protected:
 				{
 					FileHasBeenPatched = true;
 					if (!Patcher.PatchBntxTexture(SData.files["album.dds"], {"RdtIcoPvr_00^s"}, 0x02000000))
-						DialogBlocking("Album icon patch failed for " + SzsName + "\nThe theme will be installed anyway but may crash.");
+						DialogBlocking("相册图标补丁失败用于 " + SzsName + "\n主题仍将安装但可能会崩溃。");
 				}
 			}
 		}
@@ -247,7 +247,7 @@ protected:
 		if (!Preview)
 		{
 			_HasPreview = false;
-			DialogBlocking("Failed to load the preview image");
+			DialogBlocking("加载预览图像失败");
 		}
 		return Preview;
 	}
@@ -317,7 +317,7 @@ private:
 		{
 			std::string targetStr = ThemeTargetToName[themeInfo.Target];
 			if (_HasPreview)
-				targetStr += " - press X for preview";
+				targetStr += " - 按X键预览";
 			lblLine2 = (targetStr);
 		}
 

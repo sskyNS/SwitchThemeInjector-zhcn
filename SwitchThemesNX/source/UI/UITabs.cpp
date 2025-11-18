@@ -108,7 +108,7 @@ void TabRenderer::Render(int X, int Y)
 }
 
 TabRenderer::TabRenderer() :
-Title("NXThemes Installer " + Version::Name)
+Title("NX主题安装器 " + Version::Name)
 {
 	CurrentControl = nullptr;
 }

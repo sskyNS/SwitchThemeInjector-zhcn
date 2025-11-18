@@ -64,13 +64,13 @@ extern std::unordered_map<std::string,std::string> ThemeTargetToFileName;
 
 const std::unordered_map<std::string,std::string> ThemeTargetToName6X
 {
-	{"home","Home menu"},
-	{"lock","Lock screen"},
+	{"home","主菜单"},
+{"lock","锁屏界面"},
 	{"user","User page"},
-	{"apps","All apps menu"},
+	{"apps","所有应用菜单"},
 	{"set","Settings applet"},
 	{"news","News applet" },
-	{"psl","Player selection"},
+	{"psl","用户选择"},
 };
 
 const std::unordered_map<std::string,std::string> ThemeTargetToFileName6X
@@ -86,13 +86,13 @@ const std::unordered_map<std::string,std::string> ThemeTargetToFileName6X
 
 const std::unordered_map<std::string,std::string> ThemeTargetToName5X
 {
-	{"home","Home menu"},
-	{"lock","Lock screen"},
+	{"home","主菜单"},
+{"lock","锁屏界面"},
 	{"user","User page"},
 	{"apps","All applets"},
 	{"set","All applets"},
 	{"news","All applets"},
-	{"psl","Player selection" },
+	{"psl","用户选择" },
 };
 
 ThemeFileManifest ParseNXThemeFile(SARC::SarcData &SData);
