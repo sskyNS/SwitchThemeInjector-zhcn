@@ -15,7 +15,6 @@ include $(DEVKITPRO)/libnx/switch_rules
 # SOURCES is a list of directories containing source code
 # DATA is a list of directories containing data files
 # INCLUDES is a list of directories containing header files
-# EXEFS_SRC is the optional input directory containing data copied into exefs, if anything this normally should only contain "main.npdm".
 # ROMFS is the directory containing data to be added to RomFS, relative to the Makefile (Optional)
 #
 # NO_ICON: if set to anything, do not use icon.
@@ -29,50 +28,46 @@ include $(DEVKITPRO)/libnx/switch_rules
 #     - <Project name>.jpg
 #     - icon.jpg
 #     - <libnx folder>/default_icon.jpg
+#
+# CONFIG_JSON is the filename of the NPDM config file (.json), relative to the project folder.
+#   If not set, it attempts to use one of the following (in this order):
+#     - <Project name>.json
+#     - config.json
+#   If a JSON file is provided or autodetected, an ExeFS PFS0 (.nsp) is built instead
+#   of a homebrew executable (.nro). This is intended to be used for sysmodules.
+#   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
+TARGET		:=	SDL_Test
 BUILD		:=	build
-SOURCES	:=	Libs/SOIL source/SwitchTools source/SwitchTools/lockpick source/UI source/UI/imgui source/Platform source/Pages source/Pages/ThemeEntry source/Pages/RemoteInstall source/SwitchThemesCommon/SarcLib source/SwitchThemesCommon/Layouts source/SwitchThemesCommon/Layouts/Bflyt source/SwitchThemesCommon/Bntx source/SwitchThemesCommon/Bntx/DDSConv source/SwitchThemesCommon/BinaryReadWrite source/SwitchThemesCommon/Fonts source/SwitchThemesCommon source Libs/SDL/SDL/source
+SOURCES		:=	source
 DATA		:=	data
-INCLUDES	:=	include Libs Libs/SDL/SDL/include
-EXEFS_SRC	:=	exefs_src
-ROMFS	:=	romfs
+INCLUDES	:=	include ../SDL/include
+#ROMFS	:=	romfs
 
-APP_TITLE	:=	NXThemes Installer
-APP_AUTHOR	:=	exelix
-APP_VERSION := 2.8.3
-
-GITVER ?= Unknown
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 
-CFLAGS	:=	-O2 -ffunction-sections \
+CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
+			`sdl2-config --cflags` `freetype-config --cflags` \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -Wall -Werror -DGITVER=\"$(GITVER)\" 
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__
 
-ifneq ($(DEVBUILD),)         
-	CFLAGS	+=	-DDEVBUILD=1
-endif
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
-CXXFLAGS	:= $(CFLAGS) -std=gnu++20 -Wno-deprecated-enum-enum-conversion
+ASFLAGS	:=	-g $(ARCH)
+LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-ASFLAGS	:=	 -g $(ARCH)
-LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map) -lstdc++fs
+LIBS	:= -lnx ../../SDL/lib/libSDL.a -lSDL2_image `sdl2-config --libs` `freetype-config --libs` -lpng -lwebp -ljpeg
 
-# We need to use our own libmbedtls cause the portlibs one has been compiled without MBEDTLS_CMAC_C 
-LIBS	:=	-lhactool $(CURDIR)/../Libs/mbedtls/lib/libmbedtls.a \
-			-lstdc++fs \
-			-lcurl -lz \
-			-lglfw3 -lEGL -lglapi -ldrm_nouveau \
-			-lSDL2 -lSDL2_ttf -lfreetype -lnx -lm
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS) $(LIBNX) $(CURDIR)/Libs/hactool $(CURDIR)/Libs/mbedtls
+LIBDIRS	:= $(PORTLIBS) $(LIBNX)
+
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -161,23 +156,16 @@ ifneq ($(ROMFS),)
 	export NROFLAGS += --romfsdir=$(CURDIR)/$(ROMFS)
 endif
 
-.PHONY: $(BUILD) clean libs cleanlibs cleanall all 
-.DEFAULT_GOAL := $(BUILD)
+.PHONY: $(BUILD) clean all
+
 #---------------------------------------------------------------------------------
 all: $(BUILD)
 
-libs:
-	$(MAKE) -C $(CURDIR)/Libs
-
-$(BUILD): libs
+$(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
-
 #---------------------------------------------------------------------------------
-cleanlibs:
-	$(MAKE) -C $(CURDIR)/Libs clean
-
 clean:
 	@echo clean ...
 ifeq ($(strip $(APP_JSON)),)
@@ -186,7 +174,6 @@ else
 	@rm -fr $(BUILD) $(TARGET).nsp $(TARGET).nso $(TARGET).npdm $(TARGET).elf
 endif
 
-cleanall: cleanlibs clean
 
 #---------------------------------------------------------------------------------
 else
